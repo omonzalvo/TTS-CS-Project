@@ -4,10 +4,10 @@
 using namespace std;
 
 class Animal {
-private: 
+private:
     int id;
 
-protected: 
+protected:
     int energy;
 
 public:
@@ -24,13 +24,20 @@ public:
         cout << name << " rests. Energy = " << energy << endl;
     }
 
+    void eat() {  // ✅ AQUÍ VA
+        energy += 15;
+        cout << name << " eats. Energy = " << energy << endl;
+    }
+
     void showId() {
         cout << name << " has id = " << id << endl;
     }
+
     void setEnergy(int e) {
         energy = e;
     }
 };
+
 class Dog : public Animal {
 public:
     Dog(string name, int id) : Animal(name, id) {}
@@ -38,13 +45,12 @@ public:
     void play() {
         energy -= 20;
         cout << name << " plays. Energy = " << energy << endl;
-
     }
+
     void bark() {
-    energy -= 5;
-    cout << name << " barks. Energy = " << energy << endl;
+        energy -= 5;
+        cout << name << " barks. Energy = " << energy << endl;
     }
-
 };
 
 class Cat : public Animal {
@@ -60,7 +66,7 @@ public:
 int main() {
     cout << "=== Creating objects ===" << endl;
 
-    Animal a ("GenericAnimal", 1);
+    Animal a("GenericAnimal", 1);
     Dog d("Max", 2);
     Cat c("Michi", 3);
 
@@ -73,10 +79,8 @@ int main() {
     d.play();
     c.sleep();
 
-    cout <<"\n=== private: not accessible from main ===" << endl;
+    cout << "\n=== private: not accessible from main ===" << endl;
     a.showId();
-
-    cout << "\n=== protected: not directly accessible from main ===" << endl;
 
     cout << "\n=== main can modify protected indirectly (through a derived class method) ===" << endl;
     d.setEnergy(200);
@@ -84,26 +88,28 @@ int main() {
 
     cout << "\n=== Done ===" << endl;
 
-    cout << "\n=== Max barking loop (type SAFE to exit) ===\n";
+    cout << "\n=== Max commands loop (type SAFE to exit) ===\n";
 
-string action;
+    string action;
 
-while (true) {
-    cout << "\nType bark to make Max bark or SAFE to exit:\n> ";
-    cin >> action;
+    while (true) {
+        cout << "\nType bark, eat, or SAFE to exit:\n> ";
+        cin >> action;
 
-    if (action == "SAFE") {
-        cout << "Exiting game\n";
-        break;
+        if (action == "SAFE") {
+            cout << "Exiting game\n";
+            break;
+        }
+        else if (action == "bark") {
+            d.bark();
+        }
+        else if (action == "eat") {
+            d.eat(); 
+        }
+        else {
+            cout << "Unknown command\n";
+        }
     }
-    else if (action == "bark") {
-        d.bark();
-    }
-    else {
-        cout << "Unknown command\n";
-    }
-    }
-
 
     return 0;
 }
