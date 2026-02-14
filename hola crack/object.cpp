@@ -4,29 +4,24 @@
 using namespace std;
 
 class Animal {
-private:
+private: 
     int id;
 
-protected:
-    int energy = 100;
+protected: 
+    int energy;
 
 public:
     string name;
 
-    Animal(string name, int id, int energy = 100) {
+    Animal(string name, int id) {
         this->name = name;
         this->id = id;
-        this->energy = energy;
+        energy = 100;
     }
 
     void rest() {
         energy += 10;
         cout << name << " rests. Energy = " << energy << endl;
-    }
-
-    void eat() {  
-        energy += 15;
-        cout << name << " eats. Energy = " << energy << endl;
     }
 
     void showId() {
@@ -35,6 +30,10 @@ public:
 
     void setEnergy(int e) {
         energy = e;
+    }
+
+    int getEnergy() {   // 👈 método público para leer la energía
+        return energy;
     }
 };
 
@@ -53,7 +52,7 @@ public:
     }
 };
 
-class Cat : public Animal {  
+class Cat : public Animal {
 public:
     Cat(string name, int id) : Animal(name, id) {}
 
@@ -66,7 +65,7 @@ public:
 int main() {
     cout << "=== Creating objects ===" << endl;
 
-    Animal a("GenericAnimal", 1);
+    Animal a ("GenericAnimal", 1);
     Dog d("Max", 2);
     Cat c("Michi", 3);
 
@@ -79,35 +78,33 @@ int main() {
     d.play();
     c.sleep();
 
-    cout << "\n=== private: not accessible from main ===" << endl;
+    cout <<"\n=== private: not accessible from main ===" << endl;
     a.showId();
 
-    cout << "\n=== main can modify protected indirectly (through a derived class method) ===" << endl;
+    cout << "\n=== main can modify protected indirectly ===" << endl;
     d.setEnergy(100);
     d.play();
 
-    cout << "\n=== Done ===" << endl;
-
-    cout << "\n=== Max commands loop (type SAFE to exit) ===\n";
+    cout << "\n=== Max barking loop (type SAFE to exit) ===\n";
 
     string action;
 
     while (true) {
-        cout << "\nType bark, eat, or SAFE to exit:\n> ";
+        cout << "\nCommands: bark | energy | rest | SAFE\n> ";
         cin >> action;
 
         if (action == "SAFE") {
-            cout << "Exiting game\n";
+            cout << "Exit game\n";
             break;
         }
         else if (action == "bark") {
             d.bark();
         }
-        else if (action == "eat") {
-            d.eat(); 
+        else if (action == "energy") {
+            cout << "Max energy = " << d.getEnergy() << endl;
         }
-        else if (action == "play") {
-            d.play();    
+        else if (action == "rest") {
+            d.rest();
         }
         else {
             cout << "Unknown command\n";
