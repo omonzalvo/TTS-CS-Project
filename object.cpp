@@ -27,10 +27,16 @@ public:
     void showId() {
         cout << name << " has id = " << id << endl;
     }
+
     void setEnergy(int e) {
         energy = e;
     }
+
+    int getEnergy() {   // 👈 método público para leer la energía
+        return energy;
+    }
 };
+
 class Dog : public Animal {
 public:
     Dog(string name, int id) : Animal(name, id) {}
@@ -38,13 +44,12 @@ public:
     void play() {
         energy -= 20;
         cout << name << " plays. Energy = " << energy << endl;
-
     }
+
     void bark() {
-    energy -= 5;
-    cout << name << " barks. Energy = " << energy << endl;
+        energy -= 5;
+        cout << name << " barks. Energy = " << energy << endl;
     }
-
 };
 
 class Cat : public Animal {
@@ -76,34 +81,35 @@ int main() {
     cout <<"\n=== private: not accessible from main ===" << endl;
     a.showId();
 
-    cout << "\n=== protected: not directly accessible from main ===" << endl;
-
-    cout << "\n=== main can modify protected indirectly (through a derived class method) ===" << endl;
+    cout << "\n=== main can modify protected indirectly ===" << endl;
     d.setEnergy(200);
     d.play();
 
-    cout << "\n=== Done ===" << endl;
-
     cout << "\n=== Max barking loop (type SAFE to exit) ===\n";
 
-string action;
+    string action;
 
-while (true) {
-    cout << "\nType bark to make Max bark or SAFE to exit:\n> ";
-    cin >> action;
+    while (true) {
+        cout << "\nCommands: bark | energy | rest | SAFE\n> ";
+        cin >> action;
 
-    if (action == "SAFE") {
-        cout << "Exiting game\n";
-        break;
+        if (action == "SAFE") {
+            cout << "Exit game\n";
+            break;
+        }
+        else if (action == "bark") {
+            d.bark();
+        }
+        else if (action == "energy") {
+            cout << "Max energy = " << d.getEnergy() << endl;
+        }
+        else if (action == "rest") {
+            d.rest();
+        }
+        else {
+            cout << "Unknown command\n";
+        }
     }
-    else if (action == "bark") {
-        d.bark();
-    }
-    else {
-        cout << "Unknown command\n";
-    }
-    }
-
 
     return 0;
 }
