@@ -24,7 +24,7 @@ public:
         cout << name << " rests. Energy = " << energy << endl;
     }
 
-    void eat() {  // ✅ AQUÍ VA
+    void eat() {  
         energy += 15;
         cout << name << " eats. Energy = " << energy << endl;
     }
