@@ -8,15 +8,15 @@ private:
     int id;
 
 protected:
-    int energy;
+    int energy = 100;
 
 public:
     string name;
 
-    Animal(string name, int id) {
+    Animal(string name, int id, int energy = 100) {
         this->name = name;
         this->id = id;
-        energy = 100;
+        this->energy = energy;
     }
 
     void rest() {
@@ -53,7 +53,7 @@ public:
     }
 };
 
-class Cat : public Animal {
+class Cat : public Animal {  
 public:
     Cat(string name, int id) : Animal(name, id) {}
 
@@ -83,7 +83,7 @@ int main() {
     a.showId();
 
     cout << "\n=== main can modify protected indirectly (through a derived class method) ===" << endl;
-    d.setEnergy(200);
+    d.setEnergy(100);
     d.play();
 
     cout << "\n=== Done ===" << endl;
@@ -105,6 +105,9 @@ int main() {
         }
         else if (action == "eat") {
             d.eat(); 
+        }
+        else if (action == "play") {
+            d.play();    
         }
         else {
             cout << "Unknown command\n";
