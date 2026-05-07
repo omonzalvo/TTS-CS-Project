@@ -35,7 +35,7 @@ def say(text: str, lang: str = "en", tld: str = "com"):
             return
 
         # Play using ALSA's default player
-        os.system(f'aplay -D plughw:2,0 -q "{wav_path}"')
+        os.system(f'aplay "{wav_path}"')
 
     finally:
         # Cleanup: Remove temporary files
@@ -52,10 +52,10 @@ def on_message(client, userdata, msg):
     """Callback function triggered when a new MQTT message arrives."""
     try:
         # Decode the incoming JSON payload
-        payload = json.loads(msg.payload.decode())
+        payload = json.loads(msg.payload.decode("utf-8", errors="replace"))
         
         # Extract fields with default fallbacks
-        message = payload.get("message", "")
+        message = payload.get("text", "")
         language = payload.get("lang", "en")
         accent = payload.get("tld", "com")
         
@@ -71,10 +71,10 @@ client = mqtt_client.Client(mqtt_client.CallbackAPIVersion.VERSION2)
 client.on_message = on_message
 
 # Connect to the local broker (localhost)
-client.connect("localhost", 1883, 60)
+client.connect("10.21.60.231", 1883, 60)
 
 # Subscribe to the command topic
-client.subscribe("home/voice")
+client.subscribe("robot/audio/play")
 print(" ▄█▀▀▀▄█                           ▀██                            █▀▀██▀▀█ █▀▀██▀▀█  ▄█▀▀▀▄█  ")
 print(" ██▄▄  ▀  ▄▄▄ ▄▄▄    ▄▄▄▄   ▄▄▄▄    ██  ▄▄    ▄▄▄▄  ▄▄▄ ▄▄           ██       ██     ██▄▄  ▀  ")
 print("  ▀▀███▄   ██▀  ██ ▄█▄▄▄██ ▀▀ ▄██   ██ ▄▀   ▄█▄▄▄██  ██▀ ▀▀          ██       ██      ▀▀███▄  ")
